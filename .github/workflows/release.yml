@@ -35,11 +35,13 @@ jobs:
         with:
           python-version: '3.11' # Use a vers\u00e3o do Python que voc\u00ea usa no projeto
 
-      # 3. Cache de Depend\u00eancias (Opcional, mas recomendado para velocidade)
+      # 3. Cache de Depend\u00eancias (Corrigido para usar caminhos expl\u00edcitos)
       - name: Configurar Cache
         uses: actions/cache@v4
         with:
-          path: ${{ env.PYTHON_ENV_PATH }}
+          path: |
+            ~/.cache/pip
+            ~/.local/pipx/venvs/
           key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
           restore-keys: |
             ${{ runner.os }}-pip-
@@ -49,6 +51,7 @@ jobs:
       - name: Instalar python-semantic-release
         run: |
           python -m pip install --upgrade pip
+          # Instala o pipx e o semantic-release em um ambiente isolado
           pip install pipx
           pipx install python-semantic-release
 
@@ -58,8 +61,5 @@ jobs:
           # TOKEN de seguran\u00e7a fornecido automaticamente pelo GitHub
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # O \u00fanico par\u00e2metro necess\u00e1rio \u00e9 --commit-version-number para atualizar o \u00e2__version__\u00e2 no seu __init__.py
-          # Certifique-se de configurar corretamente o semantic-release no pyproject.toml para:
-          # - Ler a vers\u00e3o de src/meu_pacote/__init__.py
-          # - Fazer commit das altera\u00e7\u00f5es (ex: git tag, git commit)
+          # Executa o release. Se os commits seguirem a conven\u00e7\u00e3o, uma nova tag ser\u00e1 criada.
           pipx run python-semantic-release publish -D commit_type="chore"
