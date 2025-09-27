@@ -61,5 +61,6 @@ jobs:
           # TOKEN de seguran\u00e7a fornecido automaticamente pelo GitHub
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Executa o release. Se os commits seguirem a conven\u00e7\u00e3o, uma nova tag ser\u00e1 criada.
-          pipx run python-semantic-release publish -D commit_type="chore"
+          # Corre\u00e7\u00e3o: Usamos '--' para passar argumentos para o comando executado pelo pipx.
+          # O comando 'publish' j\u00e1 faz o release e o commit.
+          pipx run python-semantic-release -- publish
