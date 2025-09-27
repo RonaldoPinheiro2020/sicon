@@ -35,32 +35,30 @@ jobs:
         with:
           python-version: '3.11' # Use a vers\u00e3o do Python que voc\u00ea usa no projeto
 
-      # 3. Cache de Depend\u00eancias (Corrigido para usar caminhos expl\u00edcitos)
+      # 3. Cache de Depend\u00eancias
       - name: Configurar Cache
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.cache/pip
-            ~/.local/pipx/venvs/
+          path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      # 4. Instalar Semantic Release
-      # Usaremos o pipx para garantir uma instala\u00e7\u00e3o isolada e correta.
-      - name: Instalar python-semantic-release
+      # 4. Instalar Semantic Release e Depend\u00eancias do Projeto
+      # Instalamos o semantic-release e quaisquer depend\u00eancias necess\u00e1rias para que ele funcione.
+      - name: Instalar Depend\u00eancias
         run: |
           python -m pip install --upgrade pip
-          # Instala o pipx e o semantic-release em um ambiente isolado
-          pip install pipx
-          pipx install python-semantic-release
+          pip install python-semantic-release
+          # Se o seu projeto tiver outras depend\u00eancias necess\u00e1rias para o build, instale-as aqui (ex: pip install -e .)
 
       # 5. Criar o Release
       - name: Executar o Release
         env:
           # TOKEN de seguran\u00e7a fornecido automaticamente pelo GitHub
+          # Necess\u00e1rio para criar o release.
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Corre\u00e7\u00e3o: Usamos '--' para passar argumentos para o comando executado pelo pipx.
-          # O comando 'publish' j\u00e1 faz o release e o commit.
-          pipx run python-semantic-release -- publish
+          # O comando 'publish' encontra o pr\u00f3ximo versionamento, cria a tag, faz o commit, e cria o Release.
+          # Como voc\u00ea j\u00e1 instalou o pacote no ambiente, \u00e9 mais limpo executar diretamente.
+          semantic-release publish
