@@ -1,0 +1,69 @@
+[build-system]
+# Ferramenta moderna de build (wheel e sdist).
+# Você pode usar 'hatchling', 'flit', ou o 'setuptools' com backend (como neste exemplo)
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+# 1. Metadados do Projeto
+name = "meu-pacote" # O nome que será publicado no PyPI (deve ser único)
+authors = [
+  {name = "Ronaldo Pinheiro", email = "ronaldo.pinheiro2009@gmail.com"},
+]
+description = "Uma descrição curta do meu projeto incrível."
+readme = "README.md"
+requires-python = ">=3.9" # A versão mínima do Python que você suporta
+license = {text = "MIT"} # Ou "GPL", "Apache-2.0", etc.
+keywords = ["pydantic", "core", "ui"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+# A versão inicial. O semantic-release irá ignorar isso e usar a versão do __init__.py
+# no primeiro build, mas é um campo obrigatório.
+dynamic = ["version"]
+
+# Dependências de Produção
+dependencies = [
+    # Se você for usar o Pydantic:
+    "pydantic>=2.0", 
+    # Adicione outras dependências aqui (ex: "requests", "fastapi")
+]
+
+
+[tool.setuptools.packages.find]
+# Configura o setuptools para buscar o código dentro da pasta 'src'
+where = ["src"] 
+
+
+# 2. Configuração do Python Semantic Release
+[tool.semantic_release]
+# Onde buscar a variável de versão para atualizar:
+# Caminho: /Sicon/sicon/__init__.py
+# Variável: __version__
+version_variable = "/Sicon/sicon/__init__.py:__version__"
+# Ramificação principal para releases
+branch = "main"
+# Tipos de commit que geram releases:
+commit_type_majors = ["BREAKING CHANGE", "feat!"]
+commit_type_minors = ["feat"]
+commit_type_patches = ["fix"]
+# Opções de release (padrão)
+major_on_zero = false
+
+
+# 3. Configurações de Outras Ferramentas (Exemplo: pytest)
+[tool.pytest.ini_options]
+addopts = "--strict-markers"
+testpaths = [
+    "tests",
+]
+
+
+# 4. Configuração de Linting (Exemplo: ruff)
+[tool.ruff]
+line-length = 88
+target-version = "py311" # A versão alvo do Python
+select = ["E", "F", "W", "I"] # Erros, Flake8, Warnings, Import Sort
