@@ -6,11 +6,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 # 1. Metadados do Projeto
-name = "meu-pacote" # O nome que será publicado no PyPI (deve ser único)
+name = "sicon" # Mudei para 'sicon' para refletir o nome do projeto
 authors = [
   {name = "Ronaldo Pinheiro", email = "ronaldo.pinheiro2009@gmail.com"},
 ]
-description = "Uma descrição curta do meu projeto incrível."
+description = "Sistema SICON de gest\u00e3o e login."
 readme = "README.md"
 requires-python = ">=3.9" # A versão mínima do Python que você suporta
 license = {text = "MIT"} # Ou "GPL", "Apache-2.0", etc.
@@ -21,9 +21,10 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-# A versão inicial. O semantic-release irá ignorar isso e usar a versão do __init__.py
-# no primeiro build, mas é um campo obrigatório.
-dynamic = ["version"]
+# Versão inicial. O semantic-release ir\u00e1 atualizar o __init__.py, mas o Setuptools precisa de um ponto de partida aqui tamb\u00e9m,
+# ou use 'dynamic = ["version"]' e configure o Setuptools corretamente, mas usaremos a vers\u00e3o do __init__.py.
+# Removida a linha 'dynamic = ["version"]' para evitar conflito com a atualiza\u00e7\u00e3o do __init__.py
+version = "0.0.0"
 
 # Dependências de Produção
 dependencies = [
@@ -40,18 +41,23 @@ where = ["src"]
 
 # 2. Configuração do Python Semantic Release
 [tool.semantic_release]
-# Onde buscar a variável de versão para atualizar:
-# Caminho: /Sicon/sicon/__init__.py
-# Variável: __version__
-version_variable = "/Sicon/sicon/__init__.py:__version__"
+# Correção: O caminho deve ser relativo \u00e0 raiz do projeto (onde est\u00e1 o pyproject.toml)
+version_variable = "src/sicon/__init__.py:__version__" 
+
 # Ramificação principal para releases
 branch = "main"
+
 # Tipos de commit que geram releases:
 commit_type_majors = ["BREAKING CHANGE", "feat!"]
 commit_type_minors = ["feat"]
 commit_type_patches = ["fix"]
+
 # Opções de release (padrão)
 major_on_zero = false
+
+# Garantir que a tag seja enviada corretamente
+tag_format = "v{version}"
+upload_to_release = true # Garante que o Release seja criado no GitHub
 
 
 # 3. Configurações de Outras Ferramentas (Exemplo: pytest)
