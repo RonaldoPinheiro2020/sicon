@@ -50,15 +50,27 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install python-semantic-release
-          # Se o seu projeto tiver outras depend\u00eancias necess\u00e1rias para o build, instale-as aqui (ex: pip install -e .)
 
-      # 5. Criar o Release
-      - name: Executar o Release
+      # 5. Criar a TAG de Vers\u00e3o (Usando Semantic Release)
+      # Este comando calcula a pr\u00f3xima vers\u00e3o (vX.Y.Z) e cria a TAG localmente e a envia para o GitHub.
+      - name: Executar o Semantic Release (Cria Tag)
         env:
-          # TOKEN de seguran\u00e7a fornecido automaticamente pelo GitHub
-          # Necess\u00e1rio para criar o release.
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # O comando 'publish' encontra o pr\u00f3ximo versionamento, cria a tag, faz o commit, e cria o Release.
-          # Como voc\u00ea j\u00e1 instalou o pacote no ambiente, \u00e9 mais limpo executar diretamente.
           semantic-release publish
+
+      # 6. Criar o RELEASE no GitHub
+      # Este passo \u00e9 necess\u00e1rio para que o RELEASE apare\u00e7a na interface lateral do reposit\u00f3rio.
+      # Ele s\u00f3 \u00e9 executado se o passo anterior tiver criado uma nova tag.
+      - name: Criar o Release Oficial no GitHub
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          # Usa o TOKEN para autenticar
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Indica que a \u00faltima tag deve ser usada como nome do release
+          tag_name: ${{ github.ref }}
+          # Define o t\u00edtulo e gera o corpo do release automaticamente
+          name: Release ${{ github.ref }}
+          # Habilita a gera\u00e7\u00e3o autom\u00e1tica da changelog
+          generate_release_notes: true
