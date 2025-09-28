@@ -1,0 +1,16 @@
+# Cache e Metadata do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+
+# Artifacts de Build
+dist/
+build/
+*.egg-info/
+
+# Arquivos de Sistema
+.DS_Store
+Thumbs.db
