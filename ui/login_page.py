@@ -107,4 +107,6 @@ class LoginPage(ctk.CTkFrame):
 
     def handle_create_user(self):
         # Aqui você pode adicionar a lógica para a criação de um novo usuário
-        print("Botão 'Criar Usuário' pression
+        print("Botão 'Criar Usuário' pressionado. Adicione a sua lógica aqui.")
+        # Se for para uma nova tela, use:
+        # self.controller.show_frame("CreateUserPage")
