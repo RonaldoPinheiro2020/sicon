@@ -42,7 +42,6 @@ where = ["src"]
 # 2. Configuração do Python Semantic Release
 [tool.semantic_release]
 # Correção: O caminho deve ser relativo \u00e0 raiz do projeto (onde est\u00e1 o pyproject.toml)
-upload_to_release = false
 version_variable = "src/sicon/__init__.py:__version__" 
 
 # Ramificação principal para releases
@@ -58,7 +57,7 @@ major_on_zero = false
 
 # Garantir que a tag seja enviada corretamente
 tag_format = "v{version}"
-upload_to_release = true # Garante que o Release seja criado no GitHub
+upload_to_release = false # Garante que o Release seja criado no GitHub
 
 
 # 3. Configurações de Outras Ferramentas (Exemplo: pytest)
