@@ -14,17 +14,16 @@ class LoginPage(ctk.CTkFrame):
         self.creation_year = creation_year
         
         # --- CÁLCULO FINAL DO CAMINHO (BASE_PATH) ---
-        # Objetivo: Parar na pasta raiz do projeto (Ex: D:\Python\Sicon_NEW)
+        # Objetivo: Apontar para a pasta raiz do projeto (Ex: D:\Python\Sicon_NEW)
         # O arquivo está em: .../Sicon_NEW/src/ui/login_page.py
         
         current_file_path = os.path.abspath(__file__) # 1. .../login_page.py
         ui_dir = os.path.dirname(current_file_path)   # 2. Sobe 1: .../ui
         src_dir = os.path.dirname(ui_dir)             # 3. Sobe 2: .../src
-        # CORREÇÃO: Parar aqui! O 'base_path' deve ser o diretório pai da pasta 'src',
-        # que é a raiz do seu projeto (Ex: .../Sicon_NEW), que está 2 níveis acima de 'src_dir'.
         
+        # base_path agora é o diretório pai da pasta 'src', que é a raiz do seu projeto.
+        # base_path será: D:\Python\Sicon_NEW
         base_path = os.path.dirname(src_dir) 
-        # base_path é agora: D:\Python\Sicon_NEW (Raiz do projeto)
         # --- FIM DO CÁLCULO DE BASE_PATH ---
         
         # --- Configuração do Layout Principal ---
@@ -44,7 +43,6 @@ class LoginPage(ctk.CTkFrame):
         # --- Lado Esquerdo: Símbolo do Sistema ---
         
         # Obtém o caminho para o logo
-        # Caminho final será: [Raiz]/assets/images/system-symbol.png
         symbol_path = os.path.join(base_path, 'assets', 'images', 'system-symbol.png')
         system_symbol_image = ctk.CTkImage(light_image=Image.open(symbol_path), size=(200, 200))
         symbol_label = ctk.CTkLabel(content_frame, image=system_symbol_image, text="")
@@ -87,7 +85,6 @@ class LoginPage(ctk.CTkFrame):
         footer_frame.grid_columnconfigure(1, weight=1)
         
         # Informações da Empresa
-        # Caminho final será: [Raiz]/assets/images/company-logo.png
         company_path = os.path.join(base_path, 'assets', 'images', 'company-logo.png')
         company_logo_image = ctk.CTkImage(light_image=Image.open(company_path), size=(20, 20))
         company_info_label = ctk.CTkLabel(footer_frame, image=company_logo_image, text=f"© {self.creation_year}", compound="left", font=ctk.CTkFont(size=12))
@@ -110,6 +107,4 @@ class LoginPage(ctk.CTkFrame):
 
     def handle_create_user(self):
         # Aqui você pode adicionar a lógica para a criação de um novo usuário
-        print("Botão 'Criar Usuário' pressionado. Adicione a sua lógica aqui.")
-        # Se for para uma nova tela, use:
-        # self.controller.show_frame("CreateUserPage")
+        print("Botão 'Criar Usuário' pression
