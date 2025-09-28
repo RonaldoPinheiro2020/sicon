@@ -8,13 +8,25 @@ from ui.create_user_page import CreateUserPage
 
 class MainApp(ctk.CTk):
     def __init__(self, *args, **kwargs):
+        
+        # --- CORREÇÃO DO VALUEROR: CONSUMIR ARGUMENTOS PERSONALIZADOS ---
+        # 1. Extrai os argumentos personalizados do kwargs para que não sejam repassados 
+        # para a classe pai (ctk.CTk), que não os suporta.
+        self.system_name = kwargs.pop("system_name", "App Padrão")
+        self.system_version = kwargs.pop("system_version", "0.0.0") 
+        self.creation_year = kwargs.pop("creation_year", "2024")
+        
+        # 2. Chama o __init__ da classe pai SOMENTE com argumentos que ela suporta.
         super().__init__(*args, **kwargs)
+        # --- FIM DA CORREÇÃO ---
         
         # --- Definições Globais do Sistema (SemVer) ---
-        self.system_name = "SICON"
-        self.system_version = "0.1.2" 
-        self.creation_year = "2025"
-
+        # Estas linhas foram movidas e agora são definidas pelo kwargs.pop() acima.
+        # Mantendo-as aqui, você pode definir valores padrão caso o app seja chamado sem argumentos.
+        # Se você quer garantir que os valores passados na chamada sejam usados, 
+        # esta redefinição é desnecessária se os valores padrão acima forem suficientes.
+        # Deixarei apenas a lógica do kwargs.pop para usar os valores passados na inicialização.
+        
         self.title(self.system_name)
         self.geometry("800x600")
         self.resizable(False, False)
@@ -31,6 +43,7 @@ class MainApp(ctk.CTk):
         # Adiciona todas as telas ao dicionário de frames
         for F in (LoginPage, HomePage, CreateUserPage):
             page_name = F.__name__
+            # Passa os atributos do sistema (agora definidos no self) para as telas
             frame = F(parent=self.container, controller=self,
                       system_name=self.system_name,
                       system_version=self.system_version,
@@ -57,6 +70,9 @@ if __name__ == "__main__":
     # Define o tema para "branco gelo"
     ctk.set_appearance_mode("Light")
     ctk.set_default_color_theme("green") # Exemplo: Pode usar "blue", "green" ou um tema personalizado
-    app = App(system_name="SICON_NEW", system_version="0.1.3", creation_year="2025")
-    app = MainApp()
+    
+    # --- CORREÇÃO DA DUPLICAÇÃO ---
+    # Removida a linha 'app = MainApp()' duplicada, que causava o NameError.
+    app = MainApp(system_name="SICON_NEW", system_version="0.1.3", creation_year="2025")
+    
     app.mainloop()

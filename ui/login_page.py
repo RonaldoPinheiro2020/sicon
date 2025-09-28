@@ -14,13 +14,17 @@ class LoginPage(ctk.CTkFrame):
         self.creation_year = creation_year
         
         # --- CÁLCULO FINAL DO CAMINHO (BASE_PATH) ---
-        # Este cálculo sobe 3 níveis: de login_page.py (em ui) -> src -> Sicon (Raiz)
-        # Assume-se que a pasta 'assets' está DENTRO da pasta 'Sicon'.
+        # Objetivo: Parar na pasta raiz do projeto (Ex: D:\Python\Sicon_NEW)
+        # O arquivo está em: .../Sicon_NEW/src/ui/login_page.py
         
-        current_file_path = os.path.abspath(__file__) # Ex: .../Sicon/src/ui/login_page.py
-        ui_dir = os.path.dirname(current_file_path)   # Sobe 1: .../Sicon/src/ui
-        src_dir = os.path.dirname(ui_dir)             # Sobe 2: .../Sicon/src
-        base_path = os.path.dirname(src_dir)          # Sobe 3: .../Sicon (RAIZ do projeto)
+        current_file_path = os.path.abspath(__file__) # 1. .../login_page.py
+        ui_dir = os.path.dirname(current_file_path)   # 2. Sobe 1: .../ui
+        src_dir = os.path.dirname(ui_dir)             # 3. Sobe 2: .../src
+        # CORREÇÃO: Parar aqui! O 'base_path' deve ser o diretório pai da pasta 'src',
+        # que é a raiz do seu projeto (Ex: .../Sicon_NEW), que está 2 níveis acima de 'src_dir'.
+        
+        base_path = os.path.dirname(src_dir) 
+        # base_path é agora: D:\Python\Sicon_NEW (Raiz do projeto)
         # --- FIM DO CÁLCULO DE BASE_PATH ---
         
         # --- Configuração do Layout Principal ---
