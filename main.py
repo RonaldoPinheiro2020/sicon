@@ -57,6 +57,6 @@ if __name__ == "__main__":
     # Define o tema para "branco gelo"
     ctk.set_appearance_mode("Light")
     ctk.set_default_color_theme("green") # Exemplo: Pode usar "blue", "green" ou um tema personalizado
-    app = App(system_name="SICON", system_version="0.1.2", creation_year="2025")
+    app = App(system_name="SICON_NEW", system_version="0.1.3", creation_year="2025")
     app = MainApp()
     app.mainloop()
